@@ -1,6 +1,9 @@
 package todos
 
-import "context"
+import (
+	"context"
+	"database/sql"
+)
 
 type todo struct {
 	name string
@@ -8,20 +11,40 @@ type todo struct {
 }
 
 type TodoService interface {
-	GetTodo(ctx context.Context, id string) todo
-	ListTodos(ctx context.Context) []todo
+	GetTodo(ctx context.Context, id string) (todo, error)
+	ListTodos(ctx context.Context) ([]todo, error)
 }
 
-type todoservice struct {}
-
-func NewTodoService() TodoService {
-	return &todoservice{}
+type todoservice struct {
+	db *sql.DB
 }
 
-func (t *todoservice) GetTodo (ctx context.Context, id string) todo {
-	return todo{name:"test", description:"a test"}
+func NewTodoService(db *sql.DB) *todoservice {
+	return  &todoservice{db:db}
 }
 
-func (t *todoservice) ListTodos(ctx context.Context) []todo {
-	return []todo{{name:"test", description:"a test"}, todo{name:"test2", description:"a test 2"}}
+func (t *todoservice) GetTodo (ctx context.Context, id string) (todo, error) {
+	retodo := &todo{}
+	rows, err := t.db.Query("SELECT * FROM table WHERE id = ?", id)
+	if err != nil {
+		return *retodo, err
+	}
+	err = rows.Scan(retodo)
+	if err != nil {
+		return *retodo, err
+	}
+	return *retodo , nil
+}
+
+func (t *todoservice) ListTodos(ctx context.Context) ([]todo, error) {
+	retodos := []todo{}
+	rows, err := t.db.Query("SELECT * FROM table")
+	if err != nil {
+		return retodos, err
+	}
+	err = rows.Scan(retodos)
+	if err != nil {
+		return retodos, err
+	}
+	return retodos, nil
 }

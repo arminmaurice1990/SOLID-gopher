@@ -21,7 +21,11 @@ func NewRouteHandler(todoservice todos.TodoService) *routehandler {
 
 func (ro *routehandler) GetTodoRouteHandler () http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		todo := ro.todoservice.GetTodo(r.Context(), "id")
+		todo, err := ro.todoservice.GetTodo(r.Context(), "id")
+		if err != nil {
+			http.Error(w, http.StatusText(http.StatusInternalServerError),http.StatusInternalServerError)
+			return
+		}
 		jsonBytes, err := json.Marshal(todo)
 		if err != nil {
 			http.Error(w, http.StatusText(http.StatusInternalServerError),http.StatusInternalServerError)
@@ -33,7 +37,11 @@ func (ro *routehandler) GetTodoRouteHandler () http.HandlerFunc {
 
 func (ro *routehandler) ListTodosRouteHandler () http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		todos := ro.todoservice.ListTodos(r.Context())
+		todos, err := ro.todoservice.ListTodos(r.Context())
+		if err != nil {
+			http.Error(w, http.StatusText(http.StatusInternalServerError),http.StatusInternalServerError)
+			return
+		}
 		jsonBytes, err := json.Marshal(todos)
 		if err != nil {
 			http.Error(w, http.StatusText(http.StatusInternalServerError),http.StatusInternalServerError)
