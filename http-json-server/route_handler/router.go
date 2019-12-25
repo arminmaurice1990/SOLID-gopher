@@ -1,4 +1,4 @@
-package router
+package route_handler
 
 import (
 	"encoding/json"
@@ -6,20 +6,20 @@ import (
 	"net/http"
 )
 
-type Router interface {
+type RouteHandler interface {
 	GetTodoRouteHandler() http.HandlerFunc
 	ListTodosRouteHandler() http.HandlerFunc
 }
 
-type router struct {
+type routehandler struct {
 	todoservice todos.TodoService
 }
 
-func NewRouteHandler(todoservice todos.TodoService) *router {
-	return &router{todoservice:todoservice}
+func NewRouteHandler(todoservice todos.TodoService) *routehandler {
+	return &routehandler{todoservice: todoservice}
 }
 
-func (ro *router) GetTodoRouteHandler () http.HandlerFunc {
+func (ro *routehandler) GetTodoRouteHandler () http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		todo := ro.todoservice.GetTodo(r.Context(), "id")
 		jsonBytes, err := json.Marshal(todo)
@@ -31,7 +31,7 @@ func (ro *router) GetTodoRouteHandler () http.HandlerFunc {
 	})
 }
 
-func (ro *router) ListTodosRouteHandler () http.HandlerFunc {
+func (ro *routehandler) ListTodosRouteHandler () http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		todos := ro.todoservice.ListTodos(r.Context())
 		jsonBytes, err := json.Marshal(todos)
