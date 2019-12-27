@@ -18,7 +18,7 @@ func NewBlobConnection(bloburl string) *blobservice {
 }
 
 func (b *blobservice) ListBlobs(ctx context.Context) (map[string][]byte, error) {
-	bucket, err := blob.OpenBucket(ctx,b.bloburl)
+	bucket, err := blob.OpenBucket(ctx, b.bloburl)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func (b *blobservice) ListBlobs(ctx context.Context) (map[string][]byte, error) 
 	}
 
 	messagemap := map[string][]byte{}
-	for _,key := range keys {
+	for _, key := range keys {
 		readBytes, err := bucket.ReadAll(ctx, key)
 		if err != nil {
 			return nil, err

@@ -2,9 +2,9 @@ package http_server
 
 import (
 	"encoding/json"
-	"http-json-server/logger"
 	"http-json-server/internal_services/messages"
 	"http-json-server/internal_services/todos"
+	"http-json-server/logger"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -34,7 +34,6 @@ func (h http_server) Serve() error {
 
 	return http.ListenAndServe(strconv.Itoa(h.port), nil)
 }
-
 
 func (ro *http_server) GetTodoRouteHandler() http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

@@ -22,7 +22,7 @@ type messageservice struct {
 }
 
 func NewMessageService(blobservice blob_service.BlobService, logger logger.Logger) *messageservice {
-	return &messageservice{Logger: logger, blobservice:blobservice}
+	return &messageservice{Logger: logger, blobservice: blobservice}
 }
 
 func (m *messageservice) ListMessages(ctx context.Context) ([]message, error) {
@@ -35,7 +35,7 @@ func (m *messageservice) ListMessages(ctx context.Context) ([]message, error) {
 	messages := make([]message, len(messagemap))
 	index := 0
 	for k, v := range messagemap {
-		messages[index] =  message{key:k, text:v}
+		messages[index] = message{key: k, text: v}
 		index++
 	}
 	return messages, nil

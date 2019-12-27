@@ -18,9 +18,8 @@ func NewPostgresService(datasource string) (*postgresservice, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &postgresservice{db:db}, nil
+	return &postgresservice{db: db}, nil
 }
-
 
 func (p *postgresservice) Query(objecttoscan interface{}, querystring string, args ...string) error {
 	rows, err := p.db.Query(querystring, args)
@@ -33,5 +32,3 @@ func (p *postgresservice) Query(objecttoscan interface{}, querystring string, ar
 	}
 	return nil
 }
-
-

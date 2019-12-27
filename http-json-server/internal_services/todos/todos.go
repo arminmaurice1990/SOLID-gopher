@@ -7,7 +7,6 @@ import (
 	"http-json-server/logger"
 )
 
-
 //request structs
 type getTodoRequest struct {
 	id string
@@ -31,7 +30,7 @@ type todoservice struct {
 }
 
 func NewTodoService(sqlservice sql_service.PostgresService, logger logger.Logger) *todoservice {
-	return &todoservice{sqlservice:sqlservice, Logger: logger}
+	return &todoservice{sqlservice: sqlservice, Logger: logger}
 }
 
 func (t todoservice) UnmarshalGetTodoRequest(bts []byte) (getTodoRequest, error) {
