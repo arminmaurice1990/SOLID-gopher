@@ -22,7 +22,7 @@ type todoservice struct {
 }
 
 func NewTodoService(db *sql.DB, logger logger.Logger) *todoservice {
-	return &todoservice{db: db, Logger:logger}
+	return &todoservice{db: db, Logger: logger}
 }
 
 func (t *todoservice) GetTodo(ctx context.Context, id string) (todo, error) {

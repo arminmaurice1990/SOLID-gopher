@@ -23,7 +23,7 @@ type routehandler struct {
 }
 
 func NewRouteHandler(todoservice todos.TodoService, messageservice messages.MessageService, logger logger.Logger) *routehandler {
-	return &routehandler{todoservice: todoservice, messageservice: messageservice, Logger:logger}
+	return &routehandler{todoservice: todoservice, messageservice: messageservice, Logger: logger}
 }
 
 //request structs
@@ -100,8 +100,7 @@ func (ro *routehandler) ListMessagesRouteHandler() http.HandlerFunc {
 	})
 }
 
-
-func GetRequestBodyBytes(reader io.Reader) ([]byte,error) {
+func GetRequestBodyBytes(reader io.Reader) ([]byte, error) {
 	reqBody, err := ioutil.ReadAll(reader)
 	if err != nil {
 		return []byte{}, nil

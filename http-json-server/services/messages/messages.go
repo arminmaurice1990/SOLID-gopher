@@ -16,7 +16,7 @@ type MessageService interface {
 	ListMessages(ctx context.Context) ([]message, error)
 }
 
-type messageservice struct{
+type messageservice struct {
 	logger.Logger
 }
 
