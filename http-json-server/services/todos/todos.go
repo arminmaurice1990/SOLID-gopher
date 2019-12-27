@@ -6,7 +6,7 @@ import (
 )
 
 type todo struct {
-	name string
+	name        string
 	description string
 }
 
@@ -20,10 +20,10 @@ type todoservice struct {
 }
 
 func NewTodoService(db *sql.DB) *todoservice {
-	return  &todoservice{db:db}
+	return &todoservice{db: db}
 }
 
-func (t *todoservice) GetTodo (ctx context.Context, id string) (todo, error) {
+func (t *todoservice) GetTodo(ctx context.Context, id string) (todo, error) {
 	retodo := &todo{}
 	rows, err := t.db.Query("SELECT * FROM table WHERE id = ?", id)
 	if err != nil {
@@ -33,7 +33,7 @@ func (t *todoservice) GetTodo (ctx context.Context, id string) (todo, error) {
 	if err != nil {
 		return *retodo, err
 	}
-	return *retodo , nil
+	return *retodo, nil
 }
 
 func (t *todoservice) ListTodos(ctx context.Context) ([]todo, error) {

@@ -14,7 +14,7 @@ type MessageService interface {
 	ListMessages(ctx context.Context) ([]message, error)
 }
 
-type messageservice struct {}
+type messageservice struct{}
 
 func NewMessageService() *messageservice {
 	return &messageservice{}
@@ -25,7 +25,7 @@ func (m *messageservice) ListMessages(ctx context.Context) (messages []message, 
 	if err != nil {
 		return messages, err
 	}
-	opts := &blob.ListOptions{Prefix:"ITEM", Delimiter:","}
+	opts := &blob.ListOptions{Prefix: "ITEM", Delimiter: ","}
 	messageIter := bucket.List(opts)
 
 	for {
@@ -40,6 +40,3 @@ func (m *messageservice) ListMessages(ctx context.Context) (messages []message, 
 
 	return messages, nil
 }
-
-
-

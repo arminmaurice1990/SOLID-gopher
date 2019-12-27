@@ -12,10 +12,10 @@ type http_server struct {
 }
 
 func NewHttpServer(port int, router route_handler.RouteHandler) http_server {
-	return http_server{port:port, router:router}
+	return http_server{port: port, router: router}
 }
 
-func (h http_server) Serve () error {
+func (h http_server) Serve() error {
 	http.Handle("/todo", h.router.GetTodoRouteHandler())
 	http.Handle("/todos", h.router.ListTodosRouteHandler())
 

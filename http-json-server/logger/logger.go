@@ -14,21 +14,21 @@ type logger struct {
 }
 
 func NewLogger(setting string) logger {
-	return logger{setting:setting}
+	return logger{setting: setting}
 }
 
-func (l * logger) LogError(message string, resource interface{}) {
+func (l *logger) LogError(message string, resource interface{}) {
 	fmt.Println(message, resource)
 }
 
-func (l * logger) LogWarning(message string, resource interface{}) {
+func (l *logger) LogWarning(message string, resource interface{}) {
 	fmt.Println(message, resource)
 }
 
-func (l * logger) LogInfo(message string, resource interface{}) {
+func (l *logger) LogInfo(message string, resource interface{}) {
 	fmt.Println(message, resource)
 }
 
-func (l * logger) LogDebug(message string, resource interface{}) {
+func (l *logger) LogDebug(message string, resource interface{}) {
 	fmt.Println(message, resource)
 }

@@ -5,10 +5,10 @@ import (
 	"gocloud.dev/blob"
 )
 
-func GetBucket(ctx context.Context) (*blob.Bucket , error){
+func GetBucket(ctx context.Context) (*blob.Bucket, error) {
 	buck, err := blob.OpenBucket(ctx, "<BLOB_URL>")
 	if err != nil {
-		return nil,  err
+		return nil, err
 	}
 	return buck, nil
 }
