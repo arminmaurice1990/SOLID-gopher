@@ -45,16 +45,15 @@ func (ro *http_server) GetTodoRouteHandler() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		reqStruct := &todos.GetTodoRequest{}
-		err = json.Unmarshal(reqBody, reqStruct)
+		req, err := ro.todoservice.UnmarshalGetTodoRequest(reqBody)
 		if err != nil {
-			ro.LogError(err.Error(), r.Body)
+			ro.LogError(err.Error(), req)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		todo, err := ro.todoservice.GetTodo(r.Context(), "id")
+		todo, err := ro.todoservice.GetTodo(r.Context(), req)
 		if err != nil {
-			ro.LogError(err.Error(), r.Body)
+			ro.LogError(err.Error(), req)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
