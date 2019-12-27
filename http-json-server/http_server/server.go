@@ -18,6 +18,7 @@ func NewHttpServer(port int, router route_handler.RouteHandler) http_server {
 func (h http_server) Serve() error {
 	http.Handle("/todo", h.router.GetTodoRouteHandler())
 	http.Handle("/todos", h.router.ListTodosRouteHandler())
+	http.Handle("/messages", h.router.ListMessagesRouteHandler())
 
 	return http.ListenAndServe(strconv.Itoa(h.port), nil)
 }

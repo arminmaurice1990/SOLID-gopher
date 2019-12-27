@@ -10,6 +10,7 @@ import (
 type RouteHandler interface {
 	GetTodoRouteHandler() http.HandlerFunc
 	ListTodosRouteHandler() http.HandlerFunc
+	ListMessagesRouteHandler() http.HandlerFunc
 }
 
 type routehandler struct {
