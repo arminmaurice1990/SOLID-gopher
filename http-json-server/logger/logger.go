@@ -3,32 +3,34 @@ package logger
 import "fmt"
 
 type Logger interface {
-	LogError(message string, resource interface{})
-	LogWarning(message string, resource interface{})
-	LogInfo(message string, resource interface{})
-	LogDebug(message string, resource interface{})
+	LogError(message string, args ...interface{})
+	LogWarning(message string, args ...interface{})
+	LogInfo(message string, args ...interface{})
+	LogDebug(message string, args ...interface{})
 }
 
 type logger struct {
-	setting string
+	debug bool
 }
 
-func NewLogger(setting string) logger {
-	return logger{setting: setting}
+func NewLogger(debug bool) *logger {
+	return &logger{debug: debug}
 }
 
-func (l *logger) LogError(message string, resource interface{}) {
-	fmt.Println(message, resource)
+func (l *logger) LogError(message string, args ...interface{}) {
+	fmt.Println(message, args)
 }
 
-func (l *logger) LogWarning(message string, resource interface{}) {
-	fmt.Println(message, resource)
+func (l *logger) LogWarning(message string, args ...interface{}) {
+	fmt.Println(message, args)
 }
 
-func (l *logger) LogInfo(message string, resource interface{}) {
-	fmt.Println(message, resource)
+func (l *logger) LogInfo(message string, args ...interface{}) {
+	fmt.Println(message, args)
 }
 
-func (l *logger) LogDebug(message string, resource interface{}) {
-	fmt.Println(message, resource)
+func (l *logger) LogDebug(message string, args ...interface{}) {
+	if l.debug {
+		fmt.Println(message, args)
+	}
 }
