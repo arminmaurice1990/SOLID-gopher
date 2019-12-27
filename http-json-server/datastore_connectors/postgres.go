@@ -1,4 +1,4 @@
-package database
+package datastore_connectors
 
 import (
 	"database/sql"

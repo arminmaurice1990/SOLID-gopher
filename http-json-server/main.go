@@ -1,7 +1,7 @@
 package http_json_server
 
 import (
-	"http-json-server/database"
+	"http-json-server/datastore_connectors"
 	"http-json-server/http_server"
 	"http-json-server/route_handler"
 	"http-json-server/services/todos"
@@ -11,7 +11,7 @@ import (
 const port = 8080
 
 func Main() {
-	db, err := database.ConnectPostgres()
+	db, err := datastore_connectors.ConnectPostgres()
 	if err != nil {
 		panic(err)
 	}

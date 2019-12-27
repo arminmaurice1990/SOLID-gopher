@@ -2,6 +2,7 @@ package route_handler
 
 import (
 	"encoding/json"
+	"http-json-server/services/messages"
 	"http-json-server/services/todos"
 	"net/http"
 )
@@ -9,14 +10,16 @@ import (
 type RouteHandler interface {
 	GetTodoRouteHandler() http.HandlerFunc
 	ListTodosRouteHandler() http.HandlerFunc
+
 }
 
 type routehandler struct {
 	todoservice todos.TodoService
+	messageservice messages.MessageService
 }
 
-func NewRouteHandler(todoservice todos.TodoService) *routehandler {
-	return &routehandler{todoservice: todoservice}
+func NewRouteHandler(todoservice todos.TodoService, messageservice messages.MessageService) *routehandler {
+	return &routehandler{todoservice: todoservice, messageservice: messageservice}
 }
 
 func (ro *routehandler) GetTodoRouteHandler () http.HandlerFunc {
@@ -43,6 +46,22 @@ func (ro *routehandler) ListTodosRouteHandler () http.HandlerFunc {
 			return
 		}
 		jsonBytes, err := json.Marshal(todos)
+		if err != nil {
+			http.Error(w, http.StatusText(http.StatusInternalServerError),http.StatusInternalServerError)
+			return
+		}
+		w.Write(jsonBytes)
+	})
+}
+
+func (ro *routehandler) ListMessagesRouteHandler () http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		todo, err := ro.messageservice.ListMessages(r.Context())
+		if err != nil {
+			http.Error(w, http.StatusText(http.StatusInternalServerError),http.StatusInternalServerError)
+			return
+		}
+		jsonBytes, err := json.Marshal(todo)
 		if err != nil {
 			http.Error(w, http.StatusText(http.StatusInternalServerError),http.StatusInternalServerError)
 			return
