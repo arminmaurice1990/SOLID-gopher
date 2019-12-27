@@ -3,8 +3,8 @@ package http_server
 import (
 	"encoding/json"
 	"http-json-server/logger"
-	"http-json-server/services/messages"
-	"http-json-server/services/todos"
+	"http-json-server/internal_services/messages"
+	"http-json-server/internal_services/todos"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -35,10 +35,6 @@ func (h http_server) Serve() error {
 	return http.ListenAndServe(strconv.Itoa(h.port), nil)
 }
 
-//request structs
-type GetTodoRequest struct {
-	id string
-}
 
 func (ro *http_server) GetTodoRouteHandler() http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -49,7 +45,7 @@ func (ro *http_server) GetTodoRouteHandler() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		reqStruct := &GetTodoRequest{}
+		reqStruct := &todos.GetTodoRequest{}
 		err = json.Unmarshal(reqBody, reqStruct)
 		if err != nil {
 			ro.LogError(err.Error(), r.Body)

@@ -2,10 +2,17 @@ package todos
 
 import (
 	"context"
-	"database/sql"
+	"http-json-server/datastore_services/sql_service"
 	"http-json-server/logger"
 )
 
+
+//request structs
+type GetTodoRequest struct {
+	id string
+}
+
+//return structs
 type todo struct {
 	name        string
 	description string
@@ -17,23 +24,18 @@ type TodoService interface {
 }
 
 type todoservice struct {
-	db *sql.DB
+	sqlservice sql_service.PostgresService
 	logger.Logger
 }
 
-func NewTodoService(db *sql.DB, logger logger.Logger) *todoservice {
-	return &todoservice{db: db, Logger: logger}
+func NewTodoService(sqlservice sql_service.PostgresService, logger logger.Logger) *todoservice {
+	return &todoservice{sqlservice:sqlservice, Logger: logger}
 }
 
-func (t *todoservice) GetTodo(ctx context.Context, id string) (todo, error) {
-	t.LogInfo("getting todo with id", id)
+func (t *todoservice) GetTodo(ctx context.Context, request GetTodoRequest) (todo, error) {
+	t.LogInfo("getting todo with id", request.id)
 	retodo := &todo{}
-	rows, err := t.db.Query("SELECT * FROM table WHERE id = ?", id)
-	if err != nil {
-		t.LogError(err.Error(), id)
-		return *retodo, err
-	}
-	err = rows.Scan(retodo)
+	err := t.sqlservice.Query(retodo, "SELECT * FROM table WHERE id = ?", request.id)
 	if err != nil {
 		t.LogError(err.Error(), retodo)
 		return *retodo, err
@@ -44,12 +46,7 @@ func (t *todoservice) GetTodo(ctx context.Context, id string) (todo, error) {
 func (t *todoservice) ListTodos(ctx context.Context) ([]todo, error) {
 	t.LogInfo("listing all todos")
 	retodos := []todo{}
-	rows, err := t.db.Query("SELECT * FROM table")
-	if err != nil {
-		t.LogError(err.Error())
-		return retodos, err
-	}
-	err = rows.Scan(retodos)
+	err := t.sqlservice.Query(retodos, "SELECT * FROM table")
 	if err != nil {
 		t.LogError(err.Error(), retodos)
 		return retodos, err
