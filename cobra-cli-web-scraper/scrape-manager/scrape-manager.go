@@ -12,15 +12,15 @@ type ScrapeManager interface {
 
 type scrapemanager struct {
 	scraper scraper.Scraper
-	saver saver.Saver
+	saver   saver.Saver
 }
 
 func NewScrapeManager(scraper scraper.Scraper, saver saver.Saver) *scrapemanager {
-	return &scrapemanager{scraper:scraper, saver:saver}
+	return &scrapemanager{scraper: scraper, saver: saver}
 }
 
 func (s *scrapemanager) Run(urls []string) {
-	for _,url:= range urls {
+	for _, url := range urls {
 		sitereader, err := s.scraper.Scrape(url)
 		if err != nil {
 			fmt.Println(err.Error())

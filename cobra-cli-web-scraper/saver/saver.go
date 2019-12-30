@@ -11,20 +11,19 @@ type Saver interface {
 	Save(url string, reader io.Reader) error
 }
 
-type saver struct {}
+type saver struct{}
 
 func NewSaver() *saver {
 	return &saver{}
 }
 
-func (s *saver) Save (url string, reader io.Reader) error {
+func (s *saver) Save(url string, reader io.Reader) error {
 	bytes, err := ioutil.ReadAll(reader)
 	if err != nil {
 		return err
 	}
-	name := strings.TrimPrefix(url, "http://")
-	filename := fmt.Sprintf("store/%s.html", name)
-	err = ioutil.WriteFile(filename, bytes,  0644)
+	filename := fmt.Sprintf("store/%s.html", strings.TrimPrefix(url, "http://"))
+	err = ioutil.WriteFile(filename, bytes, 0644)
 	if err != nil {
 		return err
 	}

@@ -9,13 +9,13 @@ import (
 )
 
 var sav = saver.NewSaver()
-var scrap =  scraper.NewScraper()
+var scrap = scraper.NewScraper()
 var manager = scrape_manager.NewScrapeManager(scrap, sav)
 
 var rootCmd = &cobra.Command{
-	Use:"scrape",
-	Short:"Scrape web pages into local files",
-	Long:"Scrape web pages into local files",
+	Use:   "scrape",
+	Short: "Scrape web pages into local files",
+	Long:  "Scrape web pages into local files",
 	Run: func(cmd *cobra.Command, args []string) {
 		manager.Run(args)
 	},
